@@ -14,12 +14,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TaskController extends AbstractController
 {
-    #[Route('/task/all', name: 'app_task_all')]
+    #[Route('/task/all', name: 'app_task_all', methods: 'GET')]
     public function showAllUtil(TaskRepository $repo, 
     NormalizerInterface $normalizer): Response
     {
         //tableau d'objet utilisateur (récupéré depuis la BDD)
         $data = $repo->findAll();
-        return $this->json($data, 200, [], ['groups'=>'tasks']);
+        return $this->json($data, 200, ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+        'Access-Control-Allow-Methods'=>'GET'],
+         ['groups'=>'tasks']);
     }
 }

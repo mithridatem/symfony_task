@@ -14,12 +14,14 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UtilController extends AbstractController
 {
-    #[Route('/util/all', name: 'app_util_all')]
+    #[Route('/util/all', name: 'app_util_all', methods: 'GET')]
     public function showAllUtil(UtilRepository $repo, 
     NormalizerInterface $normalizer): Response
     {
         //tableau d'objet utilisateur (récupéré depuis la BDD)
         $data = $repo->findAll();
-        return $this->json($data, 200, [], ['groups'=>'utils']);
+        return $this->json($data, 200, ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+        'Access-Control-Allow-Methods'=>'GET'],
+         ['groups'=>'utils']);
     }
 }

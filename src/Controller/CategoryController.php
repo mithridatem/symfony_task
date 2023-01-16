@@ -14,13 +14,16 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CategoryController extends AbstractController
 {
-    #[Route('/category/all', name: 'app_category_all')]
+    #[Route('/category/all', name: 'app_category_all', methods: 'GET')]
     public function showAllCategory(CategoryRepository $repo,
     NormalizerInterface $normalizer): Response
     {
         //stocker dans une variable les enregistrements de la base de données
         $data = $repo->findAll();
-        return $this->json($data,200,[], ['groups'=>'cat']);
+        return $this->json($data,200,
+        ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+        'Access-Control-Allow-Methods'=>'GET'],
+         ['groups'=>'cat']);
         //(tableau de donnée, code retour, entête http, groupe pour filtrer)
     }
 }
