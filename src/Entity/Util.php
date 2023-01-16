@@ -6,6 +6,7 @@ use App\Repository\UtilRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UtilRepository::class)]
 class Util
@@ -13,18 +14,23 @@ class Util
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['utils'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['utils'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['utils'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['utils'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 200)]
+    #[Groups(['utils'])]
     private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'util', targetEntity: Task::class)]
