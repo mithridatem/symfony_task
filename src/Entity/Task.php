@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -14,24 +15,31 @@ class Task
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['tasks'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['tasks'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['tasks'])]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['tasks'])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column]
+    #[Groups(['tasks'])]
     private ?bool $completed = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tasks')]
+    #[Groups(['tasks'])]
     private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[Groups(['tasks'])]
     private ?Util $util = null;
 
     public function __construct()

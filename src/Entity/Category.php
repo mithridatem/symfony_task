@@ -14,11 +14,11 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['cat'])]
+    #[Groups(['cat', 'tasks'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['cat'])]
+    #[Groups(['cat', 'tasks'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Task::class, mappedBy: 'categories')]
