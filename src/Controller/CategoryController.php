@@ -26,4 +26,17 @@ class CategoryController extends AbstractController
          ['groups'=>'cat']);
         //(tableau de donnée, code retour, entête http, groupe pour filtrer)
     }
+
+    #[Route('/category/id/{value}', name: 'app_category_id', methods: 'GET')]
+    public function showCategoryById(CategoryRepository $repo,
+    NormalizerInterface $normalizer, $value): Response
+    {
+        //stocker dans une variable les enregistrements de la base de données
+        $data = $repo->find($value);
+        return $this->json($data,200,
+        ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+        'Access-Control-Allow-Methods'=>'GET'],
+         ['groups'=>'cat']);
+        //(tableau de donnée, code retour, entête http, groupe pour filtrer)
+    }
 }
