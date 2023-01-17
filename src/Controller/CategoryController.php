@@ -33,10 +33,19 @@ class CategoryController extends AbstractController
     {
         //stocker dans une variable les enregistrements de la base de données
         $data = $repo->find($value);
-        return $this->json($data,200,
+        //test si data est égal à null retourne json erreur
+        if($data == null){
+            return $this->json(['error'=>'La categorie n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET']);
+        }
+        //sinon reourne le json
+        else{
+            return $this->json($data,200,
         ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
         'Access-Control-Allow-Methods'=>'GET'],
          ['groups'=>'cat']);
         //(tableau de donnée, code retour, entête http, groupe pour filtrer)
+        }
     }
 }
