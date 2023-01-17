@@ -67,3 +67,7 @@ symfony console doctrine:migrations:migrate
 ```bash
 symfony console doctrine:fixtures:load
 ```
+🔟-4️⃣ démarrer le serveur de test Symfony la commande suivante dans un terminal (pour tester l'API) :
+```bash
+symfony server:start -d
+```
