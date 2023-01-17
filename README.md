@@ -63,7 +63,7 @@ symfony console doctrine:database:create
 ```bash
 symfony console doctrine:migrations:migrate
 ```
-🔟- 3️⃣ ajouter un jeu de données factice avec la commande suivante dans un terminal :
+🔟-3️⃣ ajouter un jeu de données factice avec la commande suivante dans un terminal :
 ```bash
 symfony console doctrine:fixtures:load
 ```
