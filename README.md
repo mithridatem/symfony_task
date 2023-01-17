@@ -1,12 +1,16 @@
 # symfony_task
 **Notice récupération de la correction API** :
 Ci-dessous les étapes pour récupérer la correction du projet api sur votre machine.
+
 -1 se déplacer dans le répertoire qui contient tous vos projet symfony.
+
 -2 ouvrir git bash dans le répertoire (clic droit -> git bash here).
+
 -3 créer un nouveau projet symfony avec la commande suivante dans un terminal :
 ```bash
 symfony console new nom_projet --webapp
 ```
+
 -4 se déplacer dans le nouveau projet avec la commande suivante dans le terminal :
 ```bash
 cd nom_projet
