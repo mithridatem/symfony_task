@@ -1,6 +1,6 @@
 # symfony_task
 **Notice récupération de la correction API** :
-##pré-requis##:
+##pré-requis:
 
 -php 8.1++,
 
@@ -12,7 +12,7 @@
 
 -git.
 
-Ci-dessous les étapes pour récupérer la correction du projet api sur votre machine.
+##Ci-dessous les étapes pour récupérer la correction du projet api sur votre machine.
 
 -1 se déplacer dans le répertoire qui contient tous vos projet symfony.
 
