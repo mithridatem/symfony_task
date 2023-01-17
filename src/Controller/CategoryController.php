@@ -49,4 +49,27 @@ class CategoryController extends AbstractController
             //(tableau de donnée, code retour, entête http, groupe pour filtrer)
         }
     }
+
+    //fonction qui retourne en json une categorie par son nom
+    #[Route('/category/name/{value}', name: 'app_category_name', methods: 'GET')]
+    public function showCategoryByName(CategoryRepository $repo,
+    NormalizerInterface $normalizer, $value,): Response
+    {
+        //stocker dans une variable les enregistrements de la base de données
+        $data = $repo->findOneBy(['name'=>$value]);
+        //test si data est égal à null retourne json erreur
+        if($data == null){
+            return $this->json(['error'=>'La categorie n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET']);
+        }
+        //sinon reourne le json
+        else{
+            return $this->json($data,200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET'],
+            ['groups'=>'cat']);
+            //(tableau de donnée, code retour, entête http, groupe pour filtrer)
+        }
+    }
 }

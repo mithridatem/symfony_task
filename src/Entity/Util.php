@@ -26,11 +26,10 @@ class Util
     private ?string $firstName = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['utils'])]
+    #[Groups(['utils', 'tasks'])]
     private ?string $mail = null;
 
     #[ORM\Column(length: 200)]
-    #[Groups(['utils'])]
     private ?string $password = null;
 
     #[ORM\OneToMany(mappedBy: 'util', targetEntity: Task::class)]

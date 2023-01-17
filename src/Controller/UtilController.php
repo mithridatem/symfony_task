@@ -24,4 +24,49 @@ class UtilController extends AbstractController
         'Access-Control-Allow-Methods'=>'GET'],
          ['groups'=>'utils']);
     }
+
+    //fonction qui retourne en json une categorie par son id
+    #[Route('/util/id/{value}', name: 'app_util_id', methods: 'GET')]
+    public function showUtilById(UtilRepository $repo,
+    NormalizerInterface $normalizer, $value): Response
+    {
+        //stocker dans une variable les enregistrements de la base de données
+        $data = $repo->find($value);
+        //test si data est égal à null retourne json erreur
+        if($data == null){
+            return $this->json(['error'=>'L\'utilisateur n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET']);
+        }
+        //sinon reourne le json
+        else{
+            return $this->json($data,200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET'],
+            ['groups'=>'utils']);
+            //(tableau de donnée, code retour, entête http, groupe pour filtrer)
+        }
+    }
+    //fonction qui retourne en json un utilisateur par son nom
+    #[Route('/util/name/{value}', name: 'app_util_name', methods: 'GET')]
+    public function showUtilByName(UtilRepository $repo,
+    NormalizerInterface $normalizer, $value,): Response
+    {
+        //stocker dans une variable les enregistrements de la base de données
+        $data = $repo->findOneBy(['name'=>$value]);
+        //test si data est égal à null retourne json erreur
+        if($data == null){
+            return $this->json(['error'=>'L\'utilisateur n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET']);
+        }
+        //sinon reourne le json
+        else{
+            return $this->json($data,200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET'],
+            ['groups'=>'utils']);
+            //(tableau de donnée, code retour, entête http, groupe pour filtrer)
+        }
+    }
 }
