@@ -2,11 +2,15 @@
 **Notice récupération de la correction API** :
 ##pré-requis##:
 
--php 8.1++
+-php 8.1++,
+
 -Symfony-CLI,
+
 -mysql ou mariaDB,
+
 -terminal (bash, powershell etc..),
--git
+
+-git.
 
 Ci-dessous les étapes pour récupérer la correction du projet api sur votre machine.
 
