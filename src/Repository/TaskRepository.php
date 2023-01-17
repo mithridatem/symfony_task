@@ -54,7 +54,7 @@ class TaskRepository extends ServiceEntityRepository
 //        ;
 //    }
 /**
-    * @return Session[] Returns an array of Session objects
+    * @return Task[] Returns an array of Session objects
     */
     public function findByNameCat($value): array
     {
