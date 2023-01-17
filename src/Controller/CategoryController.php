@@ -72,4 +72,28 @@ class CategoryController extends AbstractController
             //(tableau de donnée, code retour, entête http, groupe pour filtrer)
         }
     }
+
+    //fonction qui ajoute une nouvelle catégorie depuis un json
+    #[Route('/category/add', name: 'app_category_add', methods: 'POST')]
+    public function addCategory(CategoryRepository $repo,
+    EntityManagerInterface $manager, Request $request,
+    SerializerInterface $serializer
+    ): Response
+    {
+        //récupération du json
+        $json = $request->getContent();
+        //instancier un nouvel objet catégorie
+        $cat = new Category();
+        //transformer le json en objet
+        $recup = $serializer->deserialize($json, Category::class, 'json');
+        //setter la valeur de name (de recup) dans l'attribut name de l'objet cat
+        $cat->setName($recup->getName());
+        //stocker dans manager le nouvel objet category
+        $manager->persist($cat);
+        //insertion en BDD
+        $manager->flush();
+        //afficher l'objet
+        dd($cat);
+    }
+
 }
