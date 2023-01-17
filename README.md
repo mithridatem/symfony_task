@@ -1,5 +1,5 @@
 # symfony_task
-** Notice récupération de la correction API** :
+## Notice récupération de la correction API :
 ### Pré-requis:
 
 -php 8.1++,
