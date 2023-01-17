@@ -14,7 +14,9 @@ Ce projet est un exercice de cours, pour la création et l'utilisation d'une API
 
 -terminal (bash, powershell etc..),
 
--git.
+-git,
+
+-postman (tester les url de l'API).
 
 ### Ci-dessous les étapes pour récupérer la correction du projet api sur votre machine.
 
