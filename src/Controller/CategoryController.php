@@ -13,7 +13,8 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CategoryController extends AbstractController
-{
+{   
+    //fonction qui retourne en json toutes les categories
     #[Route('/category/all', name: 'app_category_all', methods: 'GET')]
     public function showAllCategory(CategoryRepository $repo,
     NormalizerInterface $normalizer): Response
@@ -26,7 +27,7 @@ class CategoryController extends AbstractController
          ['groups'=>'cat']);
         //(tableau de donnée, code retour, entête http, groupe pour filtrer)
     }
-
+    //fonction qui retourne en json une categorie par son id
     #[Route('/category/id/{value}', name: 'app_category_id', methods: 'GET')]
     public function showCategoryById(CategoryRepository $repo,
     NormalizerInterface $normalizer, $value): Response
@@ -42,10 +43,10 @@ class CategoryController extends AbstractController
         //sinon reourne le json
         else{
             return $this->json($data,200,
-        ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
-        'Access-Control-Allow-Methods'=>'GET'],
-         ['groups'=>'cat']);
-        //(tableau de donnée, code retour, entête http, groupe pour filtrer)
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET'],
+            ['groups'=>'cat']);
+            //(tableau de donnée, code retour, entête http, groupe pour filtrer)
         }
     }
 }
