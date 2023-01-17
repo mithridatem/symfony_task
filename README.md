@@ -36,6 +36,7 @@ DATABASE_URL="mysql://loginbdd:mdpbdd@127.0.0.1:3306/nombdd?serverVersion=8&char
 symfony console doctrine:database:create
 ```
 **NB** : le serveur mysql doit être lancé.
+
 -12 migrer la structure sur le serveur mysql avec la commande suivante dans un terminal :
 ```bash
 symfony console doctrine:migrations:migrate
