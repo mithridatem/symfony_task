@@ -57,7 +57,7 @@ DATABASE_URL="mysql://loginbdd:mdpbdd@127.0.0.1:3306/nombdd?serverVersion=8&char
 ```bash
 symfony console doctrine:database:create
 ```
-**NB** : le serveur mysql doit être lancé.
+⚠️ : le serveur mysql doit être lancé.
 
 🔟-2️⃣ migrer la structure sur le serveur mysql avec la commande suivante dans un terminal :
 ```bash
