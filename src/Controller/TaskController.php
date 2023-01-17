@@ -82,15 +82,15 @@ class TaskController extends AbstractController
         $user = $utilRepo->findOneBy(['name'=>$value]);
         //stocker dans une variable un tableau d'objet task (BDD)
         $tasks = $taskRepo->findBy(['util'=>$user]);
-        //test si aucune tache à été trouvé
-        if($tasks == null){
-            return $this->json(['error'=>'Aucune tache n\a été trouvé'],200,
+        //test si l'utilisateur n'existe pas
+        if($user == null){
+            return $this->json(['error'=>'L\'utilisateur '.$value.' n\'existe pas'],200,
             ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
             'Access-Control-Allow-Methods'=>'GET']);
         }
-        //test si l'utilisateur n'existe pas
-        else if($user == null){
-            return $this->json(['error'=>'L\'utilisateur '.$value.' n\'existe pas'],200,
+        //test si aucune tache à été trouvé
+        else if($tasks == null){
+            return $this->json(['error'=>'Aucune tache n\'a été trouvé'],200,
             ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
             'Access-Control-Allow-Methods'=>'GET']);
         }
@@ -103,7 +103,5 @@ class TaskController extends AbstractController
             //(tableau de donnée, code retour, entête http, groupe pour filtrer)
         }
     }
-
-
 
 }
