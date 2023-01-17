@@ -1,4 +1,8 @@
 # symfony_task
+## Description du projet :
+
+Ce projet est un exercice de cours, pour la création et l'utilisation d'une API avec le framework symfony.
+
 ## Notice récupération de la correction API :
 ### Pré-requis :
 
