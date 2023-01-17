@@ -38,7 +38,7 @@ composer require fakerphp/faker
 ```
 6️⃣ supprimer le dossier ***.git*** dans le dossier.
 
-7️⃣ tout supprimer dans le dossier sauf les dossiers : ***var, vendor*** et les tous fichiers sauf : ***.env*** et ***.gitignore***
+7️⃣ tout supprimer dans le dossier sauf les dossiers : ***var, vendor*** et les fichiers : ***.env*** et ***.gitignore***
 
 8️⃣ initialiser le projet avec git et le lier avec le repository github :
 ```bash
