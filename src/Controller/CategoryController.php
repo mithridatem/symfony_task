@@ -95,4 +95,58 @@ class CategoryController extends AbstractController
         //afficher l'objet
         dd($cat);
     }
+
+    //fonction qui met à jour une catégorie depuis un json
+    #[Route('/category/update/{id}', name: 'app_category_update', methods: 'PATCH')]
+    public function updateCategory(CategoryRepository $repo,
+    EntityManagerInterface $manager, Request $request,
+    SerializerInterface $serializer, $id
+    ): Response
+    {
+        //récupération de l'objet si il existe
+        $cat = $repo->find($id);
+        //test si la catégorie existe
+        if($cat == null){
+            return $this->json(['error'=>'La categorie n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'PATCH']);
+        }
+        //test si elle existe
+        else{
+            //récupérer le json avec Request
+            $json = $request->getContent();
+            //tester si on à bien récupéré un json
+            if($json != null){
+                //décoder le json -> convertir en tableau
+                $recup = $serializer->decode($json, 'json');
+                //setter le nouveau nom est identique à l'enregistrement BDD
+                if($recup['name'] == $cat->getName()){
+                    //retourne une erreur pas de json
+                    return $this->json(['error'=>'Modification annulée le nom est identique'],200,
+                    ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+                    'Access-Control-Allow-Methods'=>'PATCH']);
+                }
+                //le nom est différent
+                else{
+                    //setter le nouveau nom
+                    $cat->setName($recup['name']);
+                    //sauvegarder la modification dans le manager
+                    $manager->persist($cat);
+                    //envoyer la modification a la BDD
+                    $manager->flush();
+                    //retourne une erreur pas de json
+                    return $this->json(['error'=>'Le nom de la catégorie à été modifié'],200,
+                    ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+                    'Access-Control-Allow-Methods'=>'PATCH']);
+                }
+            }
+            //test si je n'ai pas de json dans le résultat de la requête
+            else{
+                //retourne une erreur pas de json
+                return $this->json(['error'=>'L\'entête http ne contient aucun json'],200,
+                ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+                'Access-Control-Allow-Methods'=>'PATCH']);
+            }
+        }
+    }
 }
