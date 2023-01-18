@@ -53,7 +53,7 @@ class TaskRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-/**
+    /**
     * @return Task[] Returns an array of Session objects
     */
     public function findByNameCat($value): array
@@ -62,6 +62,20 @@ class TaskRepository extends ServiceEntityRepository
             ->innerJoin('tasks.categories', 'cats') //jointure avec la table categorie
             ->andWhere('cats.name = :catName') //condition (nom de la categorie)
             ->setParameter('catName', $value) //équivalent à un bindParam
+            ->orderBy('tasks.id', 'ASC') //trier par un ou plusieurs attributs
+            ->getQuery()
+            ->getResult()
+       ;
+    }
+    /**
+    * @return Task[] Returns an array of Session objects
+    */
+    public function findByIdCat($id): array
+    {
+        return $this->createQueryBuilder('tasks')//alias de la requête select * from task
+            ->innerJoin('tasks.categories', 'cats') //jointure avec la table categorie
+            ->andWhere('cats.id = :catId') //condition (nom de la categorie)
+            ->setParameter('catId', $id) //équivalent à un bindParam
             ->orderBy('tasks.id', 'ASC') //trier par un ou plusieurs attributs
             ->getQuery()
             ->getResult()

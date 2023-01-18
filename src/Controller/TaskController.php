@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TaskController extends AbstractController
 {
+    //fonction qui retourne en json toutes les taches
     #[Route('/task/all', name: 'app_task_all', methods: 'GET')]
     public function showAllUtil(TaskRepository $repo, 
     NormalizerInterface $normalizer): Response
@@ -75,7 +76,7 @@ class TaskController extends AbstractController
         }
     }
 
-    //fonction qui retourne en json une tache par son nom
+    //fonction qui retourne en json les taches qui ont le même nom de l'auteur
     #[Route('/task/utilname/{value}', name: 'app_task_utilname', methods: 'GET')]
     public function showTaskByUtilName(TaskRepository $taskRepo,
     UtilRepository $utilRepo, NormalizerInterface $normalizer, $value): Response
@@ -106,8 +107,7 @@ class TaskController extends AbstractController
         }
     }
 
-
-    //fonction qui retourne en json une tache par son nom
+    //fonction qui retourne en json les taches qui ont le même nom de catégorie
     #[Route('/task/catName/{value}', name: 'app_task_catname', methods: 'GET')]
     public function showTaskByCatName(TaskRepository $taskRepo, CategoryRepository $catRepo,
     NormalizerInterface $normalizer, $value): Response
