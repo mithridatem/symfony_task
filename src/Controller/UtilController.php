@@ -187,7 +187,9 @@ class UtilController extends AbstractController
                 $util->setMail($recup['mail']);
                 //setter la valeur du mot de passe (de recup) dans l'attribut password de l'objet util
                 $util->setPassword(password_hash($recup['password'], PASSWORD_DEFAULT));
+                //on stocke l'objet dans le manager
                 $manager->persist($util);
+                //on sauvegarde les modifications dans la base de données.
                 $manager->flush();
                 return $this->json(['info'=>'L\'utilisateur '.$util->getName().' a été modifié'],200,
                 ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
