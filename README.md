@@ -20,7 +20,7 @@ Ce projet est un exercice de cours, pour la création et l'utilisation d'une API
 
 ### Ci-dessous les étapes pour récupérer la correction du projet api sur votre machine.
 
-1️⃣ se déplacer dans le répertoire qui contient tous vos projet symfony.
+1️⃣ se déplacer dans le répertoire qui contient tous vos projets symfony.
 
 2️⃣ ouvrir git bash dans le répertoire (clic droit -> git bash here).
 
