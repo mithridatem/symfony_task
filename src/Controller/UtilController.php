@@ -126,7 +126,7 @@ class UtilController extends AbstractController
         //afficher l'objet
         dd($util);
     }
-
+    //fonction qui supprime un utilisateur par son ID
     #[Route('/util/delete/{id}', name: 'app_util_delete', methods: 'DELETE')]
     public function deleteUtil2(EntityManagerInterface $manager,
     Request $request, UtilRepository $repo, TaskRepository $taskRepo, $id
@@ -154,6 +154,51 @@ class UtilController extends AbstractController
             return $this->json(['info'=>'L\'utilisateur '.$id.' à bien été supprimé'],200,
             ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
             'Access-Control-Allow-Methods'=>'DELETE']);
+        }
+    }
+    //mise à jour d'un utilisateur depuis un fichier JSON
+    #[Route('/util/update/{id}', name: 'app_util_update', methods: 'PATCH')]
+    public function updateUtil(EntityManagerInterface $manager,
+    Request $request, UtilRepository $repo, $id, SerializerInterface $serializer
+    ): Response
+    {
+        //récupérer l'objet utilisateur
+        $util = $repo->find($id);
+        //test si l'utilisateur existe
+        if($util != null){
+            //récupération du json
+            $json = $request->getContent();
+            //décoder le json
+            $recup = $serializer->decode($json , 'json');
+            //test si les données sont identiques
+            if($util->getName()== $recup['name'] AND $util->getFirstName()== $recup['first_name']
+            AND $util->getMail()== $recup['mail']){
+                return $this->json(['error'=>'Aucune modification à apporter'],200,
+                ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+                'Access-Control-Allow-Methods'=>'PATCH']);
+            }
+            //sinon on met à jour l'utilisateur
+            else{
+                //setter la valeur de name (de recup) dans l'attribut name de l'objet util
+                $util->setName($recup['name']);
+                //setter la valeur de first_name (de recup) dans l'attribut first_name de l'objet util
+                $util->setFirstName($recup['first_name']);
+                //setter la valeur de mail (de recup) dans l'attribut mail de l'objet util
+                $util->setMail($recup['mail']);
+                //setter la valeur du mot de passe (de recup) dans l'attribut password de l'objet util
+                $util->setPassword(password_hash($recup['password'], PASSWORD_DEFAULT));
+                $manager->persist($util);
+                $manager->flush();
+                return $this->json(['info'=>'L\'utilisateur '.$util->getName().' a été modifié'],200,
+                ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+                'Access-Control-Allow-Methods'=>'PATCH']);
+            }
+        }
+        //si l'utilisateur n'existe pas
+        else{
+            return $this->json(['error'=>'L\'utilisateur n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'PATCH']);
         }
     }
 }
