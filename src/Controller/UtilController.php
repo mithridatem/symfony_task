@@ -69,7 +69,7 @@ class UtilController extends AbstractController
             //(tableau de donnée, code retour, entête http, groupe pour filtrer)
         }
     }
-    //fonction qui ajoute une nouvelle catégorie depuis un json
+    //fonction qui ajoute une nouvel utilisateur depuis un json version deserialize
     #[Route('/util/add', name: 'app_util_add', methods: 'POST')]
     public function addUtil(EntityManagerInterface $manager,
     Request $request,SerializerInterface $serializer
@@ -96,7 +96,7 @@ class UtilController extends AbstractController
         //afficher l'objet
         dd($util);
     }
-    //fonction qui ajoute une nouvelle catégorie depuis un json version decode
+    //fonction qui ajoute une nouvel utilisateur depuis un json version decode
     #[Route('/util/add2', name: 'app_util_add2', methods: 'POST')]
     public function addUtil2(EntityManagerInterface $manager,
     Request $request,SerializerInterface $serializer
