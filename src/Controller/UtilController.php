@@ -156,7 +156,7 @@ class UtilController extends AbstractController
             'Access-Control-Allow-Methods'=>'DELETE']);
         }
     }
-    //mise à jour d'un utilisateur depuis un fichier JSON
+    //mise à jour d'un utilisateur depuis un fichier JSON avec PATCH
     #[Route('/util/update/{id}', name: 'app_util_update', methods: 'PATCH')]
     public function updateUtil(EntityManagerInterface $manager,
     Request $request, UtilRepository $repo, $id, SerializerInterface $serializer
