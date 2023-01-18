@@ -7,7 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Util;
+use App\Entity\Task;
 use App\Repository\UtilRepository;
+use App\Repository\TaskRepository;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +34,7 @@ class UtilController extends AbstractController
     {
         //stocker dans une variable les enregistrements de la base de données
         $data = $repo->find($value);
+        //stocker dans une variable l'objet utilisateur (BDD)
         //test si data est égal à null retourne json erreur
         if($data == null){
             return $this->json(['error'=>'L\'utilisateur n\'existe pas'],200,
@@ -122,5 +125,35 @@ class UtilController extends AbstractController
         $manager->flush();
         //afficher l'objet
         dd($util);
+    }
+
+    #[Route('/util/delete/{id}', name: 'app_util_delete', methods: 'DELETE')]
+    public function deleteUtil2(EntityManagerInterface $manager,
+    Request $request, UtilRepository $repo, TaskRepository $taskRepo, $id
+    ): Response
+    {
+        //récupérer l'utilisateur dans une variable
+        $util = $repo->find($id);
+        //stocker dans une variable un tableau d'objet task (BDD)
+        $tasks = $taskRepo->findBy(['util'=>$util]);
+        //si l'utilisateur n'existe pas affiche une erreur
+        if($util == null){
+            return $this->json(['error'=>'L\'utilisateur n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'DELETE']);
+        }
+        else if($tasks != null){
+            return $this->json(['error'=>'L\'utilisateur est lié à des taches'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'GET']);
+        }
+        //sinon le supprime et affiche un message
+        else{
+            $manager->remove($util);
+            $manager->flush();
+            return $this->json(['info'=>'L\'utilisateur '.$id.' à bien été supprimé'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'DELETE']);
+        }
     }
 }
