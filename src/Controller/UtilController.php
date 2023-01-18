@@ -16,9 +16,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UtilController extends AbstractController
 {
+    //fonction qui retourne un json de tous les utilisateur
     #[Route('/util/all', name: 'app_util_all', methods: 'GET')]
-    public function showAllUtil(UtilRepository $repo, 
-    NormalizerInterface $normalizer): Response
+    public function showAllUtil(UtilRepository $repo): Response
     {
         //tableau d'objet utilisateur (récupéré depuis la BDD)
         $data = $repo->findAll();
@@ -29,8 +29,7 @@ class UtilController extends AbstractController
 
     //fonction qui retourne en json une categorie par son id
     #[Route('/util/id/{value}', name: 'app_util_id', methods: 'GET')]
-    public function showUtilById(UtilRepository $repo,
-    NormalizerInterface $normalizer, $value): Response
+    public function showUtilById(UtilRepository $repo,$value): Response
     {
         //stocker dans une variable les enregistrements de la base de données
         $data = $repo->find($value);
@@ -52,8 +51,7 @@ class UtilController extends AbstractController
     }
     //fonction qui retourne en json un utilisateur par son nom
     #[Route('/util/name/{value}', name: 'app_util_name', methods: 'GET')]
-    public function showUtilByName(UtilRepository $repo,
-    NormalizerInterface $normalizer, $value,): Response
+    public function showUtilByName(UtilRepository $repo,$value): Response
     {
         //stocker dans une variable les enregistrements de la base de données
         $data = $repo->findOneBy(['name'=>$value]);
@@ -96,8 +94,10 @@ class UtilController extends AbstractController
         $manager->persist($util);
         //insertion en BDD
         $manager->flush();
-        //afficher l'objet
-        dd($util);
+        //retourner un json avec la réponse 
+        return $this->json(['info'=>'L\'utilisateur '.$util->getName().' a été ajouté'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'POST']);
     }
     //fonction qui ajoute une nouvel utilisateur depuis un json version decode
     #[Route('/util/add2', name: 'app_util_add2', methods: 'POST')]
@@ -123,13 +123,14 @@ class UtilController extends AbstractController
         $manager->persist($util);
         //insertion en BDD
         $manager->flush();
-        //afficher l'objet
-        dd($util);
+        return $this->json(['info'=>'L\'utilisateur '.$util->getName().' a été ajouté'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'POST']);
     }
     //fonction qui supprime un utilisateur par son ID
     #[Route('/util/delete/{id}', name: 'app_util_delete', methods: 'DELETE')]
-    public function deleteUtil2(EntityManagerInterface $manager,
-    Request $request, UtilRepository $repo, TaskRepository $taskRepo, $id
+    public function deleteUtil2(EntityManagerInterface $manager, 
+    UtilRepository $repo, TaskRepository $taskRepo, $id
     ): Response
     {
         //récupérer l'utilisateur dans une variable
@@ -149,8 +150,11 @@ class UtilController extends AbstractController
         }
         //sinon le supprime et affiche un message
         else{
+            //suppression de l'enregistrement
             $manager->remove($util);
+            //mise à jour en BDD
             $manager->flush();
+            //retour du json d'erreur
             return $this->json(['info'=>'L\'utilisateur '.$id.' à bien été supprimé'],200,
             ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
             'Access-Control-Allow-Methods'=>'DELETE']);
@@ -191,6 +195,7 @@ class UtilController extends AbstractController
                 $manager->persist($util);
                 //on sauvegarde les modifications dans la base de données.
                 $manager->flush();
+                //affichage de l'erreur en json (confirmation de la modification)
                 return $this->json(['info'=>'L\'utilisateur '.$util->getName().' a été modifié'],200,
                 ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
                 'Access-Control-Allow-Methods'=>'PATCH']);
@@ -198,6 +203,7 @@ class UtilController extends AbstractController
         }
         //si l'utilisateur n'existe pas
         else{
+            //affichage de l'erreur en json (le compte n'existe pas)
             return $this->json(['error'=>'L\'utilisateur n\'existe pas'],200,
             ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
             'Access-Control-Allow-Methods'=>'PATCH']);
