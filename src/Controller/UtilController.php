@@ -69,4 +69,31 @@ class UtilController extends AbstractController
             //(tableau de donnée, code retour, entête http, groupe pour filtrer)
         }
     }
+    //fonction qui ajoute une nouvelle catégorie depuis un json
+    #[Route('/util/add', name: 'app_util_add', methods: 'POST')]
+    public function addUtil(EntityManagerInterface $manager,
+    Request $request,SerializerInterface $serializer
+    ): Response
+    {
+        //récupération du json
+        $json = $request->getContent();
+        //instancier un nouvel objet catégorie
+        $util = new Util();
+        //transformer le json en objet
+        $recup = $serializer->deserialize($json, Util::class, 'json');
+        //setter la valeur de name (de recup) dans l'attribut name de l'objet util
+        $util->setName($recup->getName());
+        //setter la valeur de first_name (de recup) dans l'attribut name de l'objet util
+        $util->setFirstName($recup->getFirstName());
+        //setter la valeur de mail (de recup) dans l'attribut name de l'objet util
+        $util->setMail($recup->getMail());
+        //setter la valeur de password (de recup) dans l'attribut name de l'objet util
+        $util->setPassword(password_hash($recup->getPassword(),PASSWORD_DEFAULT ));
+        //stocker dans manager le nouvel objet category
+        $manager->persist($util);
+        //insertion en BDD
+        $manager->flush();
+        //afficher l'objet
+        dd($util);
+    }
 }

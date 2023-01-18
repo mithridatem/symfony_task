@@ -95,5 +95,4 @@ class CategoryController extends AbstractController
         //afficher l'objet
         dd($cat);
     }
-
 }
