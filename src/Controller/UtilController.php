@@ -77,7 +77,7 @@ class UtilController extends AbstractController
     {
         //récupération du json
         $json = $request->getContent();
-        //instancier un nouvel objet catégorie
+        //instancier un nouvel objet Util
         $util = new Util();
         //transformer le json en objet
         $recup = $serializer->deserialize($json, Util::class, 'json');
@@ -89,7 +89,34 @@ class UtilController extends AbstractController
         $util->setMail($recup->getMail());
         //setter la valeur de password (de recup) dans l'attribut name de l'objet util
         $util->setPassword(password_hash($recup->getPassword(),PASSWORD_DEFAULT ));
-        //stocker dans manager le nouvel objet category
+        //stocker dans manager le nouvel objet Util
+        $manager->persist($util);
+        //insertion en BDD
+        $manager->flush();
+        //afficher l'objet
+        dd($util);
+    }
+    //fonction qui ajoute une nouvelle catégorie depuis un json version decode
+    #[Route('/util/add2', name: 'app_util_add2', methods: 'POST')]
+    public function addUtil2(EntityManagerInterface $manager,
+    Request $request,SerializerInterface $serializer
+    ): Response
+    {
+        //récupération du json
+        $json = $request->getContent();
+        //instancier un nouvel objet Util
+        $util = new Util();
+        //décoder le json
+        $recup = $serializer->decode($json , 'json');
+        //setter la valeur de name (de recup) dans l'attribut name de l'objet util
+        $util->setName($recup['name']);
+        //setter la valeur de first_name (de recup) dans l'attribut name de l'objet util
+        $util->setFirstName($recup['first_name']);
+        //setter la valeur de mail (de recup) dans l'attribut name de l'objet util
+        $util->setMail($recup['mail']);
+        //setter la valeur de password (de recup) dans l'attribut name de l'objet util
+        $util->setPassword(password_hash($recup['password'],PASSWORD_DEFAULT ));
+        //stocker dans manager le nouvel objet Util
         $manager->persist($util);
         //insertion en BDD
         $manager->flush();
