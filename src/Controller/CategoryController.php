@@ -149,4 +149,43 @@ class CategoryController extends AbstractController
             }
         }
     }
+    
+    //fonction qui met à jour une catégorie depuis un json
+    #[Route('/category/delete/{id}', name: 'app_category_delete', methods: 'DELETE')]
+    public function deleteCategory(CategoryRepository $repo,
+    TaskRepository $taskRepo, EntityManagerInterface $manager,$id
+    ): Response{
+        //récupérer la catégorie si elle existe
+        $cat = $repo->find($id);
+        //teste si la catégorie n'existe pas
+        if($cat == null){
+            //affiche le message d'erreur la tache n'existe pas 
+            return $this->json(['error'=>'La categorie n\'existe pas'],200,
+            ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=>'DELETE']);
+        }
+        //test si la tache existe
+        else{
+            //récupérer la liste des taches qui sont liées à la catégorie
+            $list = $taskRepo->findByIdCat($id);
+            //test si la catégorie est liée à une ou plusieurs taches
+            if($list != null){
+                //affiche le message d'erreur la tache ne peut pas être supprimée
+                return $this->json(['error'=>'La categorie est liée à une ou plusieurs taches'],200,
+                ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+                'Access-Control-Allow-Methods'=>'DELETE']);
+            }
+            //test si elle n'est pas liée à aucune tache
+            else{
+                //supprimer l'objet dans le manager
+                $manager->remove($cat);
+                //sauvegarder la suppression en BDD
+                $manager->flush();
+                //affiche le message la tache à été supprimé
+                return $this->json(['info'=>'La categorie à été supprimé'],200,
+                ['Content-Type'=>'application/json','Access-Control-Allow-Origin'=> '*',
+                'Access-Control-Allow-Methods'=>'DELETE']);
+            }
+        }
+    }
 }
