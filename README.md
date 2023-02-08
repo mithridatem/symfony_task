@@ -26,7 +26,7 @@ Ce projet est un exercice de cours, pour la création et l'utilisation d'une API
 
 3️⃣ créer un nouveau projet symfony avec la commande suivante dans un terminal :
 ```bash
-symfony console new nom_projet --webapp
+symfony new nom_projet --webapp
 ```
 
 4️⃣ se déplacer dans le nouveau projet avec la commande suivante dans le terminal :
